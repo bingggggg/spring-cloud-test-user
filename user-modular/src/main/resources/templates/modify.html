@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8"/>
+		<title></title>
+		<link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all" />
+	</head>
+
+	<body> 
+		<form class="layui-form" action="">
+			<div class="layui-form-item" style="margin-top: 20px;">
+				<label class="layui-form-label">用户名</label>
+				<div class="layui-input-inline">
+					<input type="text" name="userName" required lay-verify="required" placeholder="请输入用户名"  class="layui-input" th:value="${data}==null?'':${data.userName}"/>
+					<input type="hidden" name="userCode" required lay-verify="required" placeholder="请输入用户名"  class="layui-input" th:value="${data}==null?'':${data.userCode}"/>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">密码</label>
+				<div class="layui-input-inline">
+					<input type="password" name="userPassword" required lay-verify="required" placeholder="请输入密码"  class="layui-input" th:value="${data}==null?'':${data.userPassword}"/>
+				</div>
+			<!--	<div class="layui-form-mid layui-word-aux">正确</div>-->
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">确认密码</label>
+				<div class="layui-input-inline">
+					<input type="password"  required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input"/>
+				</div>
+				<!--<div class="layui-form-mid layui-word-aux">密码一致</div>
+				<div class="layui-form-mid layui-word-aux">密码不一致</div>-->
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">证件类型</label>
+				<div class="layui-input-inline">
+					<select name="userIdType" lay-verify="required">
+						<option value=""></option>
+						<option value="0" th:selected="${data}==null?'false':(${data.userIdType}==0?'true':'false')" >身份证</option>
+						<option value="1" th:selected="${data}==null?'false':(${data.userIdType}==1?'true':'false')">边民证</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">证件号</label>
+				<div class="layui-input-inline"> 
+					<input type="text" name="userIdCode" required lay-verify="required" placeholder="请输入证件号" autocomplete="off" class="layui-input" th:value="${data}==null?'':${data.userIdCode}"/>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">电话号码</label>
+				<div class="layui-input-inline">
+					<input type="text" name="userPhone" required lay-verify="required" placeholder="请输入电话号码" autocomplete="off" class="layui-input" th:value="${data}==null?'':${data.userPhone}"/>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">邮箱</label>
+				<div class="layui-input-inline">
+					<input type="text" name="userEmail" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input" th:value="${data}==null?'':${data.userEmail}"/>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+	</body>
+			<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+	<script>
+		//Demo
+		layui.use(['form','jquery'], function() {
+			var form = layui.form,$ = layui.jquery;
+
+			//监听提交
+			form.on('submit(formDemo)', function(data) {
+				layer.msg(JSON.stringify(data.field));
+				$.ajax({
+					url : "/user/rest/modify",
+					data:data.field,
+					success : function(data) {
+						layer.msg(data.info);
+					}
+				});
+				return false;
+			});
+		});
+	</script>
+
+</html>
